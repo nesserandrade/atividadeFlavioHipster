@@ -1,0 +1,60 @@
+entity Endereco {
+  logradouro String,
+  numero String,
+  complemento String,
+  bairro String,
+  cep String,
+  cidade String,
+  estado String
+}
+
+entity Cliente {
+  nome String,
+  fone String,
+  email String,
+  cpf String,
+}
+
+// Adicionamos a propriedade endereco para representar o relacionamento OneToOne
+relationship OneToOne {
+  Cliente{endereco} to Endereco
+}
+
+entity Vendedor {
+  nome String,
+  fone String,
+  email String,
+  comissao Double,
+  cpf String,
+  endereco Endereco
+}
+
+entity Parcela {
+  dataVencimento String,
+  valor Double,
+  pago Boolean
+}
+
+entity Venda {
+  dataVenda String,
+  totalVenda Double,
+  numeroNotaFiscal String,
+  cliente Cliente,
+  vendedor Vendedor,
+  p1 Parcela,
+  p2 Parcela,
+  p3 Parcela
+}
+
+relationship ManyToOne {
+  Venda{cliente} to Cliente,
+  Venda{vendedor} to Vendedor,
+  Venda{p1} to Parcela,
+  Venda{p2} to Parcela,
+  Venda{p3} to Parcela
+}
+
+relationship OneToMany {
+  Cliente{vendas} to Venda{cliente},
+  Vendedor{vendas} to Venda{vendedor}
+}
